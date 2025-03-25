@@ -43,19 +43,20 @@ healthy
 
 ### 📌 Fichier `transcendence_nginx.conf`
 #### 🔹 Reverse Proxy (décommenter pour activer l'API Backend)
-```nginx
-# location /api/ {
-#    proxy_pass http://backend:5000/;
-#    proxy_ssl_verify off;
-#    proxy_set_header Host $host;
-#    proxy_set_header X-Real-IP $remote_addr;
-#    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-#    proxy_set_header X-Forwarded-Proto $scheme;
-# }
+```nginx configuration pro
+#location /api/auth {
+#    proxy_pass         http://backend:5000/; # Remplacer backend par le nom du service
+#    proxy_set_header   Host                 $host;
+#    proxy_set_header   X-Real-IP            $remote_addr;
+#    proxy_set_header   X-Forwarded-For      $proxy_add_x_forwarded_for;
+#    proxy_set_header   X-Forwarded-Proto    $scheme;
+#    proxy_http_version 1.1;
+#    proxy_cache_bypass $http_upgrade;
+#}
 ```
 
 #### 🔹 Gestion du Cache pour les fichiers statiques
-```nginx
+```nginx configuration pro
 location ~* \.(css|png|jpg|jpeg|gif|ico|svg)$ {
     expires max;
     log_not_found off;
@@ -63,10 +64,20 @@ location ~* \.(css|png|jpg|jpeg|gif|ico|svg)$ {
 ```
 
 #### 🔹 Activation de la Compression Gzip
-```nginx
+```nginx configuration pro
 gzip on;
 gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 ```
+
+#### 🔹 Retour customisé pour les erreurs 500
+```nginx configuration pro
+error_page 500 501 502 503 504=@500;
+location @500 {
+    return 503 '{"status":503,"message":"Le serveur ne peut donner suite a votre demande !"}\n';
+}
+```
+
+
 
 ## 🔧 Dépannage
 
