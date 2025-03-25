@@ -26,6 +26,8 @@ Ce service utilise **Nginx** en tant que **reverse proxy** pour servir une appli
 
 ### 1️⃣ **Construire et Lancer le Conteneur**
 ```sh
+git clone git@github.com:42-Transcendance-CGPSV/front_end.git nginx
+cd nginx
 docker build -t jbadaire/front_end:latest ./
 docker docker container run -p 25565:443 --name=front-end jbadaire/front_end:latest
 ```
