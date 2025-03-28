@@ -8,6 +8,7 @@ Ce service utilise **Nginx** en tant que **reverse proxy** pour servir une appli
 - 🔒 Sécurisation avec SSL/TLS.
 - 🚀 Optimisation avec Gzip et cache des fichiers statiques.
 - 📡 Vérification du bon fonctionnement via une route de santé (`/nginx_health`).
+- 🐳 Rebuild automatique de l'image via github workflow.
 
 ## 📂 Structure du projet
 ```
@@ -26,9 +27,7 @@ Ce service utilise **Nginx** en tant que **reverse proxy** pour servir une appli
 
 ### 1️⃣ **Construire et Lancer le Conteneur**
 ```sh
-git clone git@github.com:42-Transcendance-CGPSV/front_end.git nginx
-cd nginx
-docker build -t jbadaire/front_end:latest ./
+docker pull ghcr.io/42-transcendance-cgpsv/nginx:latest
 docker docker container run -p 25565:443 --name=front-end jbadaire/front_end:latest
 ```
 
@@ -38,6 +37,16 @@ Vous devriez voir :
 ```
 healthy
 ```
+
+## 🐳 Rebuild l'image via github workflow ##
+Accédez à votre repo en local, assurez-vous de n'avoir aucun commit en attente.
+
+Vous pouvez ensuite utiliser les commandes suivantes :
+```sh
+➜  front_end git:(main) ✗ git tag v1.0.2
+➜  front_end git:(main) ✗ git push origin v1.0.2
+```
+Le github workflow s'occupera du reste !
 
 ## ⚙️ Configuration Nginx
 
